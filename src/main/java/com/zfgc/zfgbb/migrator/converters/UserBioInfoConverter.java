@@ -1,6 +1,8 @@
 package com.zfgc.zfgbb.migrator.converters;
 
 import java.security.NoSuchAlgorithmException;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,10 +19,13 @@ import com.zfgc.zfgbb.migrator.db.AvatarDbo;
 import com.zfgc.zfgbb.migrator.db.AvatarDboExample;
 import com.zfgc.zfgbb.migrator.db.ContentResourceDbo;
 import com.zfgc.zfgbb.migrator.db.ContentResourceDboExample;
+import com.zfgc.zfgbb.migrator.db.GenderLkupDbo;
+import com.zfgc.zfgbb.migrator.db.GenderLkupDboExample;
 import com.zfgc.zfgbb.migrator.db.UserBioInfoDbo;
 import com.zfgc.zfgbb.migrator.db.UserDbo;
 import com.zfgc.zfgbb.migrator.mappers.AvatarDboMapper;
 import com.zfgc.zfgbb.migrator.mappers.ContentResourceDboMapper;
+import com.zfgc.zfgbb.migrator.mappers.GenderLkupDboMapper;
 import com.zfgc.zfgbb.migrator.mappers.UserBioInfoDboMapper;
 import com.zfgc.zfgbb.migrator.smf.dbo.SMFAttachmentsDb;
 import com.zfgc.zfgbb.migrator.smf.dbo.SMFAttachmentsDbExample;
@@ -47,6 +52,9 @@ public class UserBioInfoConverter {
 	@Autowired
 	private ContentResourceDboMapper contentMapper;
 	
+	@Autowired
+	private GenderLkupDboMapper genderLkupMapper;
+	
 	@Transactional
 	public Map<Integer,UserBioInfoDbo> convertToZfgbb() {
 		List<SMFMembersDbWithBLOBs> SMFMembers = smfMembersMapper.selectByExampleWithBLOBs(new SMFMembersDbExample());
@@ -58,7 +66,9 @@ public class UserBioInfoConverter {
 		Map<Integer,SMFAttachmentsDb> SMFAvatarAttachments = 
 				smfAttachmentsDbMapper.selectByExample(avatarEx).stream()
 									  .collect(Collectors.toMap(SMFAttachmentsDb::getIdMember, Function.identity()));
-																						
+		
+		List<GenderLkupDbo> genderLk = genderLkupMapper.selectByExample(new GenderLkupDboExample());
+		
 		AtomicInteger contentId = new AtomicInteger(1);
 		SMFMembers.forEach((smfMember) -> {
 			//create the avatar first if one exists for the user
@@ -125,11 +135,21 @@ public class UserBioInfoConverter {
 			
 			UserBioInfoDbo user = new UserBioInfoDbo();
 			
+			String genderCode = smfMember.getGender().intValue() == 1 ? "M" : (smfMember.getGender().intValue() == 2 ? "F" : null);
+			Integer genderId = genderLk.stream().filter(lk -> lk.getCode().equals(genderCode)).findFirst().map(GenderLkupDbo::getGenderId).orElse(null);
+			
 			user.setUserId(smfMember.getIdMember());
 			user.setCustomTitle(smfMember.getUsertitle());
 			user.setPersonalText(smfMember.getPersonalText());
 			user.setSignature(smfMember.getSignature());
 			user.setAvatarId(avatar.getAvatarId());
+			user.setBirthDate(smfMember.getBirthdate());
+			user.setKarmaBad(smfMember.getKarmaBad());
+			user.setKarmaGood(smfMember.getKarmaGood());
+			user.setHideEmailFlag(Boolean.TRUE.equals(smfMember.getHideEmail()));
+			user.setHideOnlineStatus(!Boolean.TRUE.equals(smfMember.getShowOnline()));
+			user.setGenderId(genderId);
+			
 			
 			try {
 				user.setMigrationHash(user.computeHash());
