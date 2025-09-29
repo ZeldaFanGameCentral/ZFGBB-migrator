@@ -13,6 +13,7 @@ import com.zfgc.zfgbb.migrator.converters.MessageConverter;
 import com.zfgc.zfgbb.migrator.converters.MessageHistoryConverter;
 import com.zfgc.zfgbb.migrator.converters.ThreadConverter;
 import com.zfgc.zfgbb.migrator.converters.UserBioInfoConverter;
+import com.zfgc.zfgbb.migrator.converters.UserContactInfoConverter;
 import com.zfgc.zfgbb.migrator.converters.UsersConverter;
 
 @Component
@@ -45,6 +46,9 @@ public class AppStartUpListener implements ApplicationListener<ContextRefreshedE
 	@Autowired
 	private AttachmentsConverter attachmentsConverter;
 	
+	@Autowired
+	private UserContactInfoConverter contactInfoConverter;
+	
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
          
@@ -63,5 +67,6 @@ public class AppStartUpListener implements ApplicationListener<ContextRefreshedE
         //phase 2
     	bioInfoConverter.convertToZfgbb();
     	attachmentsConverter.convertToZfgbb();
+    	contactInfoConverter.convertToZfgbb();
     }
 }
