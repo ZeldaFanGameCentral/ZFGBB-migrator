@@ -1,12 +1,14 @@
 package com.zfgc.zfgbb.migrator.converters;
 
 import java.security.NoSuchAlgorithmException;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -149,6 +151,12 @@ public class UserBioInfoConverter {
 			user.setHideEmailFlag(Boolean.TRUE.equals(smfMember.getHideEmail()));
 			user.setHideOnlineStatus(!Boolean.TRUE.equals(smfMember.getShowOnline()));
 			user.setGenderId(genderId);
+			
+			Instant instant = Instant.ofEpochMilli(TimeUnit.SECONDS.toMillis(smfMember.getDateRegistered()));
+		    LocalDate dateRegistered =
+		      LocalDate.ofInstant(instant, ZoneId.of("UTC"));
+			
+			user.setDateRegistered(dateRegistered);
 			
 			
 			try {
