@@ -18,14 +18,16 @@
     
 
     <!-- tables -->
-    <table schema="zfgbb" tableName="gender_lkup" domainObjectName="GenderLkupDbo">
-    	<columnOverride column="created_ts" jdbcType="TIMESTAMP_WITH_TIMEZONE" javaType="java.time.LocalDateTime" isGeneratedAlways="true"/>
-		<columnOverride column="updated_ts" jdbcType="TIMESTAMP_WITH_TIMEZONE" javaType="java.time.LocalDateTime" isGeneratedAlways="true"/>
-    </table>
-    <!-- <table schema="zfgbb" tableName="user_bio_info" domainObjectName="UserBioInfoDbo">
+    <table schema="zfgbb" tableName="user_bio_info" domainObjectName="UserBioInfoDbo">
 		<columnOverride column="created_ts" jdbcType="TIMESTAMP_WITH_TIMEZONE" javaType="java.time.LocalDateTime" isGeneratedAlways="true"/>
 		<columnOverride column="updated_ts" jdbcType="TIMESTAMP_WITH_TIMEZONE" javaType="java.time.LocalDateTime" isGeneratedAlways="true"/>
 		<columnOverride column="birth_date" jdbcType="DATE" javaType="java.time.LocalDate"/>
+		<columnOverride column="date_registered" jdbcType="DATE" javaType="java.time.LocalDate"/>
+    </table>
+    
+    <!-- <table schema="zfgbb" tableName="gender_lkup" domainObjectName="GenderLkupDbo">
+    	<columnOverride column="created_ts" jdbcType="TIMESTAMP_WITH_TIMEZONE" javaType="java.time.LocalDateTime" isGeneratedAlways="true"/>
+		<columnOverride column="updated_ts" jdbcType="TIMESTAMP_WITH_TIMEZONE" javaType="java.time.LocalDateTime" isGeneratedAlways="true"/>
     </table> -->
     
     <!-- <table schema="zfgbb" tableName="content_resource" domainObjectName="ContentResourceDbo">
