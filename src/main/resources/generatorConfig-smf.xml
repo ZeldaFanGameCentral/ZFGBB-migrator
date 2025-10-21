@@ -18,7 +18,22 @@
     
 
     <!-- tables -->
-    <table tableName="smf_1members" domainObjectName="SMFMembersDb">
+    <table tableName="smf_1polls" domainObjectName="SMFPollsDb">
+    	<columnOverride column="max_votes" jdbcType="SMALLINT" javaType="java.lang.Integer"/>
+    	<columnOverride column="hide_results" jdbcType="SMALLINT" javaType="java.lang.Boolean"/>
+    	<columnOverride column="change_vote" jdbcType="SMALLINT" javaType="java.lang.Boolean"/>
+    	<columnOverride column="guest_vote" jdbcType="SMALLINT" javaType="java.lang.Boolean"/>
+    </table>
+    
+    <table tableName="smf_1poll_choices" domainObjectName="SMFPollChoicesDb">
+    	<columnOverride column="id_choice" jdbcType="SMALLINT" javaType="java.lang.Integer"/>
+    </table>
+    
+    <table tableName="smf_1log_polls" domainObjectName="SMFLogPollsDb">
+    	<columnOverride column="id_choice" jdbcType="SMALLINT" javaType="java.lang.Integer"/>
+    </table>
+    
+    <!-- <table tableName="smf_1members" domainObjectName="SMFMembersDb">
 		<columnOverride column="id_group" jdbcType="SMALLINT" javaType="java.lang.Integer"/>
 		<columnOverride column="instant_messages" jdbcType="SMALLINT" javaType="java.lang.Integer"/>
 		<columnOverride column="unread_messages" jdbcType="SMALLINT" javaType="java.lang.Integer"/>
@@ -28,7 +43,7 @@
 		<columnOverride column="birthdate" jdbcType="DATE" javaType="java.time.LocalDate"/>
 		<columnOverride column="hide_email" jdbcType="SMALLINT" javaType="java.lang.Boolean"/>
 		<columnOverride column="show_online" jdbcType="SMALLINT" javaType="java.lang.Boolean"/>
-	</table>
+	</table> -->
     
     <!-- <table tableName="smf_1attachments" domainObjectName="SMFAttachmentsDb">
 		
