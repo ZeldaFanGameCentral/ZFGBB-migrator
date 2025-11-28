@@ -53,7 +53,10 @@ public class UserPollChoiceConverter {
 							 try {
 								pollChoiceDbo.setMigrationHash(pollChoiceDbo.computeHash());
 								UserPollChoiceDboExample ex = new UserPollChoiceDboExample();
-								ex.createCriteria().andMigrationHashEqualTo(pollChoiceDbo.getMigrationHash());
+								ex.createCriteria().andMigrationHashEqualTo(pollChoiceDbo.getMigrationHash())
+								                   .andUserIdEqualTo(l.getIdMember())
+								                   .andPollChoiceIdEqualTo(choiceId);
+										           
 								userPollChoiceMapper.selectByExample(ex).stream().findFirst()
 													.ifPresentOrElse(
 															upc -> {

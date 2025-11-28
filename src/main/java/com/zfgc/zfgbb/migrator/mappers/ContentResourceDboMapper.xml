@@ -352,7 +352,7 @@
   </update>
   
   <select id="getMaxRecordId" resultType="java.lang.Integer">
-  	select min(content_resource_id)
+  	select coalesce(min(content_resource_id),0)
   	from zfgbb.content_resource
   	where content_type_id = 2;
   </select>
